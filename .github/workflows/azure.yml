@@ -23,4 +23,6 @@ jobs:
       run: |
         # Build and test the project, then
         # deploy to Azure Web App.
+        ls
+        chmod +x testsuite.sh
         ./testsuite.sh
