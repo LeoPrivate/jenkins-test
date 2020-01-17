@@ -1,5 +1,4 @@
-# This workflow will build and push a node.js application to an Azure Web App on every push to the master branch.
-#
+
 # To configure this workflow:
 #
 # 1. Set up a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE with the value of your Azure publish profile.
@@ -15,15 +14,33 @@ on:
       - master
 
 jobs:
-  build-and-deploy:
-    name: Test suite
+
+# Runs all steps on the VM
+# The service containers will use host port binding instead of container networking so you access them via localhost rather than the service name
+  vm-job:
     runs-on: ubuntu-latest
+
+    services:
+      postgres:
+        image: postgres:10.8
+        env:
+          POSTGRES_USER: postgres
+          POSTGRES_PASSWORD: postgres
+          POSTGRES_DB: postgres
+        ports:
+        # will assign a random free host port
+        - 5432/tcp
+        # needed because the postgres container does not provide a healthcheck
+        options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+
     steps:
-    - uses: actions/checkout@master
-    - name: start test suite
-      run: |
-        # Build and test the project, then
-        # deploy to Azure Web App.
-        ls
-        chmod +x testsuite.sh
-        ./testsuite.sh
+    - uses: actions/checkout@v1     
+    - run: ls
+      working-directory: ./
+    - run: echo $POSTGRES_HOST & echo $POSTGRES_PORT
+      working-directory: ./
+      env:
+        # use localhost for the host here because we are running the job on the VM.
+        # If we were running the job on in a container this would be postgres
+        POSTGRES_HOST: localhost
+        POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
