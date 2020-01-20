@@ -45,4 +45,4 @@ jobs:
         sudo apt-get update
         sudo apt-get install postgresql-client
     - run: |
-        psql -h localhost -p ${{ job.services.postgres.ports[5432] }} -w postgres --no-password -c 'CREATE DATABASE test'
+        psql --no-password -c 'CREATE DATABASE test'
