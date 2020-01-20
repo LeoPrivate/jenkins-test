@@ -40,9 +40,10 @@ jobs:
         sudo apt-get update
         sudo apt-get install postgresql-client
     - run: |
-        psql -h $POSTGRES_HOST -p $POSTGRES_PORT -c 'CREATE DATABASE test'
+        psql -h $POSTGRES_HOST -p $POSTGRES_PORT --no-password -c 'CREATE DATABASE test'
       env:
         # use localhost for the host here because we are running the job on the VM.
         # If we were running the job on in a container this would be postgres
         POSTGRES_HOST: localhost
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
+        PGPASSWORD: postgres
