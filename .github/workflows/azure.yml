@@ -47,3 +47,4 @@ jobs:
         POSTGRES_PORT: ${{ job.services.postgres.ports[5432] }} # get randomly assigned published port
         PGPASSWORD: postgres
         PGPORT: ${{ job.services.postgres.ports[5432] }}
+        PGHOST: postgres 
