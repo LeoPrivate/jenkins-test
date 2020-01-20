@@ -45,12 +45,13 @@ jobs:
         export PGPASSWORD=postgres
         echo $PGPORT
     - run: |
-        echo $PGPORT
+        sudo TEST=123 echo $TEST
         sudo apt-get update
         sudo apt-get install postgresql-client
     - run: |
-        sudo env PGHOST=$PGHOST PGPORT=$PGPORT PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD psql -lqt
-        sudo env PGHOST=$PGHOST PGPORT=$PGPORT PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD psql --no-password -c 'CREATE DATABASE test'
+        sudo PGHOST=localhost PGPORT=${{job.services.postgres.ports[5432]}} PGUSER=postgres PGPASSWORD=postgres psql -lqt
+        sudo PGHOST=$PGHOST PGPORT=$PGPORT PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD psql -lqt
+        sudo PGHOST=$PGHOST PGPORT=$PGPORT PGUSER=$PGUSER PGPASSWORD=$PGPASSWORD psql --no-password -c 'CREATE DATABASE test'
     - run: sudo psql -lqt
       env:
        PGHOST: localhost
