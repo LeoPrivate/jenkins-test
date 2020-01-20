@@ -1,5 +1,5 @@
 
-# To configure this workflow:
+# To configure this workfl
 #
 # 1. Set up a secret in your repository named AZURE_WEBAPP_PUBLISH_PROFILE with the value of your Azure publish profile.
 #
