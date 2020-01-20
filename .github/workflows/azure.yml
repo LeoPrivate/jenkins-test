@@ -46,8 +46,9 @@ jobs:
         sudo apt-get update
         sudo apt-get install postgresql-client
     - run: |
-        psql -lqt
-        psql --no-password -c 'CREATE DATABASE test'
+        sudo -E psql -lqt
+        sudo -E psql --no-password -c 'CREATE DATABASE test'
+    - run: sudo psql -lqt
       env:
        PGHOST: localhost
        PGPORT: ${{ job.services.postgres.ports[5432] }}
