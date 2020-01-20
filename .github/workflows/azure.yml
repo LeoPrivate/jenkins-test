@@ -46,6 +46,7 @@ jobs:
         sudo apt-get update
         sudo apt-get install postgresql-client
     - run: |
+        psql -lqt
         psql --no-password -c 'CREATE DATABASE test'
       env:
        PGHOST: localhost
