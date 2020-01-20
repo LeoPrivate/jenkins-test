@@ -12,6 +12,9 @@ on:
     branches:
       - test
       - master
+  push:
+    branches:
+      - master
 
 jobs:
 
