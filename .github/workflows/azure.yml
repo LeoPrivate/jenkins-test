@@ -36,10 +36,11 @@ jobs:
     steps:
     - uses: actions/checkout@v1     
     - run: |
-        PGHOST=localhost
-        PGPORT=${{ job.services.postgres.ports[5432] }}
-        PGUSER=postgres
-        PGPASSWORD=postgres
+        export PGHOST=localhost
+        export PGPORT=${{ job.services.postgres.ports[5432] }}
+        export PGUSER=postgres
+        export PGPASSWORD=postgres
+        echo $PGPORT
     - run: |
         echo $PGPORT
         sudo apt-get update
